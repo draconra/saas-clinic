@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         imaging: data.imaging || null,
         clinicId: clinic.id,
         patientId: data.patientId,
-        doctorId: session.user?.email || 'unknown',
+        doctorId: session.user.id,
       },
     })
 

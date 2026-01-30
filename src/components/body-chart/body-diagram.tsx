@@ -5,8 +5,8 @@ import { BodyChart, BodyRegion } from '@/types'
 
 interface BodyDiagramProps {
   bodyCharts: BodyChart[]
-  onBodyChartAdd: (bodyChart: Partial<BodyChart>) => void
-  onBodyChartRemove: (id: string) => void
+  onBodyChartAdd?: (bodyChart: Partial<BodyChart>) => void
+  onBodyChartRemove?: (id: string) => void
   readOnly?: boolean
 }
 
@@ -156,17 +156,17 @@ export default function BodyDiagram({ bodyCharts, onBodyChartAdd, onBodyChartRem
     const y = event.clientY - rect.top
 
     setSelectedRegion(region.id)
-    onBodyChartAdd({
+    onBodyChartAdd?.({
       bodyRegion: region.name,
       coordinates: JSON.stringify({ x, y, regionId: region.id }),
       bodyPart: region.name,
       side: region.name.toLowerCase().includes('left') ? 'LEFT' :
-            region.name.toLowerCase().includes('right') ? 'RIGHT' : 'CENTRAL'
+        region.name.toLowerCase().includes('right') ? 'RIGHT' : 'CENTRAL'
     })
   }
 
   const handleRegionRemove = (bodyChart: BodyChart) => {
-    onBodyChartRemove(bodyChart.id)
+    onBodyChartRemove?.(bodyChart.id)
   }
 
   // Zoom functions
@@ -221,7 +221,7 @@ export default function BodyDiagram({ bodyCharts, onBodyChartAdd, onBodyChartRem
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Prevent default for keys we handle
     if (e.ctrlKey || e.altKey || e.metaKey) {
-      switch(e.key) {
+      switch (e.key) {
         case '=':
         case '+':
           e.preventDefault()
@@ -244,9 +244,9 @@ export default function BodyDiagram({ bodyCharts, onBodyChartAdd, onBodyChartRem
   React.useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof Element &&
-          (e.target.tagName === 'INPUT' ||
-           e.target.tagName === 'TEXTAREA' ||
-           e.target.tagName === 'SELECT')) {
+        (e.target.tagName === 'INPUT' ||
+          e.target.tagName === 'TEXTAREA' ||
+          e.target.tagName === 'SELECT')) {
         return // Don't intercept when user is typing
       }
       handleKeyDown(e as any)
@@ -335,279 +335,279 @@ export default function BodyDiagram({ bodyCharts, onBodyChartAdd, onBodyChartRem
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
               onWheel={handleWheel}>
-            {/* Human body outline - highly realistic and anatomical */}
-            <g>
-              {/* Head and Facial Features */}
-              <ellipse cx="250" cy="60" rx="45" ry="50" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3"/>
-              <ellipse cx="250" cy="60" rx="45" ry="50" fill="none" stroke="#374151" strokeWidth="2.5"/>
-
-              {/* Facial structure */}
-              <path d="M 220 60 Q 235 55, 250 55 T 280 60" fill="none" stroke="#6b7280" strokeWidth="1" opacity="0.6"/>
-              <circle cx="230" cy="55" r="2" fill="#374151" opacity="0.4"/> {/* Left eye */}
-              <circle cx="270" cy="55" r="2" fill="#374151" opacity="0.4"/> {/* Right eye */}
-              <path d="M 245 65 Q 250 67, 255 65" fill="none" stroke="#374151" strokeWidth="1" opacity="0.4"/> {/* Nose */}
-              <path d="M 240 73 Q 250 75, 260 73" fill="none" stroke="#374151" strokeWidth="1" opacity="0.4"/> {/* Mouth */}
-
-              {/* Neck and Thyroid */}
-              <rect x="235" y="105" width="30" height="35" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="8" opacity="0.3"/>
-              <rect x="235" y="105" width="30" height="35" fill="none" stroke="#374151" strokeWidth="2" rx="8"/>
-              <ellipse cx="250" cy="120" rx="8" ry="6" fill="none" stroke="#a78bfa" strokeWidth="1" strokeDasharray="3,2" opacity="0.6"/> {/* Thyroid */}
-
-              {/* Shoulder Girdle */}
-              <path d="M 160 120 Q 160 110, 170 110 L 330 110 Q 340 110, 340 120"
-                    fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3"/>
-              <path d="M 160 120 Q 160 110, 170 110 L 330 110 Q 340 110, 340 120"
-                    fill="none" stroke="#374151" strokeWidth="2.5"/>
-
-              {/* Clavicles */}
-              <path d="M 175 120 Q 200 125, 250 125 T 325 120" fill="none" stroke="#6b7280" strokeWidth="1.5" opacity="0.6"/>
-
-              {/* Chest and Rib Cage */}
-              <path d="M 190 130 Q 185 125, 190 125 L 310 125 Q 315 125, 310 130 L 310 220 Q 310 225, 305 225 L 195 225 Q 190 225, 190 220 Z"
-                    fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3"/>
-              <path d="M 190 130 Q 185 125, 190 125 L 310 125 Q 315 125, 310 130 L 310 220 Q 310 225, 305 225 L 195 225 Q 190 225, 190 220 Z"
-                    fill="none" stroke="#374151" strokeWidth="2.5" rx="15"/>
-
-              {/* Rib lines */}
-              {Array.from({length: 6}, (_, i) => (
-                <g key={`rib-${i}`}>
-                  <path d={`M 195 ${140 + i * 15} Q 250 ${145 + i * 15}, 305 ${140 + i * 15}`}
-                        fill="none" stroke="#9ca3af" strokeWidth="1" opacity="0.4"/>
-                </g>
-              ))}
-
-              {/* Sternum */}
-              <line x1="250" y1="130" x2="250" y2="220" stroke="#374151" strokeWidth="2" opacity="0.6"/>
-
-              {/* Arms - Left */}
+              {/* Human body outline - highly realistic and anatomical */}
               <g>
-                {/* Shoulder */}
-                <circle cx="165" cy="135" r="12" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <circle cx="165" cy="135" r="12" fill="none" stroke="#374151" strokeWidth="2"/>
+                {/* Head and Facial Features */}
+                <ellipse cx="250" cy="60" rx="45" ry="50" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3" />
+                <ellipse cx="250" cy="60" rx="45" ry="50" fill="none" stroke="#374151" strokeWidth="2.5" />
 
-                {/* Upper arm */}
-                <rect x="150" y="140" width="30" height="85" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="15" opacity="0.3"/>
-                <rect x="150" y="140" width="30" height="85" fill="none" stroke="#374151" strokeWidth="2" rx="15"/>
+                {/* Facial structure */}
+                <path d="M 220 60 Q 235 55, 250 55 T 280 60" fill="none" stroke="#6b7280" strokeWidth="1" opacity="0.6" />
+                <circle cx="230" cy="55" r="2" fill="#374151" opacity="0.4" /> {/* Left eye */}
+                <circle cx="270" cy="55" r="2" fill="#374151" opacity="0.4" /> {/* Right eye */}
+                <path d="M 245 65 Q 250 67, 255 65" fill="none" stroke="#374151" strokeWidth="1" opacity="0.4" /> {/* Nose */}
+                <path d="M 240 73 Q 250 75, 260 73" fill="none" stroke="#374151" strokeWidth="1" opacity="0.4" /> {/* Mouth */}
 
-                {/* Elbow */}
-                <circle cx="165" cy="235" r="10" fill="none" stroke="#374151" strokeWidth="2"/>
+                {/* Neck and Thyroid */}
+                <rect x="235" y="105" width="30" height="35" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="8" opacity="0.3" />
+                <rect x="235" y="105" width="30" height="35" fill="none" stroke="#374151" strokeWidth="2" rx="8" />
+                <ellipse cx="250" cy="120" rx="8" ry="6" fill="none" stroke="#a78bfa" strokeWidth="1" strokeDasharray="3,2" opacity="0.6" /> {/* Thyroid */}
 
-                {/* Forearm */}
-                <rect x="150" y="240" width="28" height="75" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="14" opacity="0.3"/>
-                <rect x="150" y="240" width="28" height="75" fill="none" stroke="#374151" strokeWidth="2" rx="14"/>
+                {/* Shoulder Girdle */}
+                <path d="M 160 120 Q 160 110, 170 110 L 330 110 Q 340 110, 340 120"
+                  fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3" />
+                <path d="M 160 120 Q 160 110, 170 110 L 330 110 Q 340 110, 340 120"
+                  fill="none" stroke="#374151" strokeWidth="2.5" />
 
-                {/* Wrist */}
-                <rect x="152" y="315" width="24" height="12" fill="none" stroke="#374151" strokeWidth="2" rx="6"/>
+                {/* Clavicles */}
+                <path d="M 175 120 Q 200 125, 250 125 T 325 120" fill="none" stroke="#6b7280" strokeWidth="1.5" opacity="0.6" />
 
-                {/* Hand */}
-                <ellipse cx="164" cy="340" rx="18" ry="25" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <ellipse cx="164" cy="340" rx="18" ry="25" fill="none" stroke="#374151" strokeWidth="2"/>
-              </g>
+                {/* Chest and Rib Cage */}
+                <path d="M 190 130 Q 185 125, 190 125 L 310 125 Q 315 125, 310 130 L 310 220 Q 310 225, 305 225 L 195 225 Q 190 225, 190 220 Z"
+                  fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3" />
+                <path d="M 190 130 Q 185 125, 190 125 L 310 125 Q 315 125, 310 130 L 310 220 Q 310 225, 305 225 L 195 225 Q 190 225, 190 220 Z"
+                  fill="none" stroke="#374151" strokeWidth="2.5" rx="15" />
 
-              {/* Arms - Right */}
-              <g>
-                {/* Shoulder */}
-                <circle cx="335" cy="135" r="12" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <circle cx="335" cy="135" r="12" fill="none" stroke="#374151" strokeWidth="2"/>
+                {/* Rib lines */}
+                {Array.from({ length: 6 }, (_, i) => (
+                  <g key={`rib-${i}`}>
+                    <path d={`M 195 ${140 + i * 15} Q 250 ${145 + i * 15}, 305 ${140 + i * 15}`}
+                      fill="none" stroke="#9ca3af" strokeWidth="1" opacity="0.4" />
+                  </g>
+                ))}
 
-                {/* Upper arm */}
-                <rect x="320" y="140" width="30" height="85" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="15" opacity="0.3"/>
-                <rect x="320" y="140" width="30" height="85" fill="none" stroke="#374151" strokeWidth="2" rx="15"/>
+                {/* Sternum */}
+                <line x1="250" y1="130" x2="250" y2="220" stroke="#374151" strokeWidth="2" opacity="0.6" />
 
-                {/* Elbow */}
-                <circle cx="335" cy="235" r="10" fill="none" stroke="#374151" strokeWidth="2"/>
-
-                {/* Forearm */}
-                <rect x="322" y="240" width="28" height="75" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="14" opacity="0.3"/>
-                <rect x="322" y="240" width="28" height="75" fill="none" stroke="#374151" strokeWidth="2" rx="14"/>
-
-                {/* Wrist */}
-                <rect x="324" y="315" width="24" height="12" fill="none" stroke="#374151" strokeWidth="2" rx="6"/>
-
-                {/* Hand */}
-                <ellipse cx="336" cy="340" rx="18" ry="25" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <ellipse cx="336" cy="340" rx="18" ry="25" fill="none" stroke="#374151" strokeWidth="2"/>
-              </g>
-
-              {/* Abdominal Cavity */}
-              <path d="M 195 230 Q 190 225, 195 225 L 305 225 Q 310 225, 305 230 L 305 320 Q 305 325, 300 325 L 200 325 Q 195 325, 195 320 Z"
-                    fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3"/>
-              <path d="M 195 230 Q 190 225, 195 225 L 305 225 Q 310 225, 305 230 L 305 320 Q 305 325, 300 325 L 200 325 Q 195 325, 195 320 Z"
-                    fill="none" stroke="#374151" strokeWidth="2.5"/>
-
-              {/* Pelvis */}
-              <path d="M 185 330 Q 180 325, 185 325 L 315 325 Q 320 325, 315 330 L 315 360 Q 315 365, 310 365 L 190 365 Q 185 365, 185 360 Z"
-                    fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3"/>
-              <path d="M 185 330 Q 180 325, 185 325 L 315 325 Q 320 325, 315 330 L 315 360 Q 315 365, 310 365 L 190 365 Q 185 365, 185 360 Z"
-                    fill="none" stroke="#374151" strokeWidth="2.5"/>
-
-              {/* Legs - Left */}
-              <g>
-                {/* Upper leg */}
-                <rect x="195" y="370" width="35" height="110" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="17" opacity="0.3"/>
-                <rect x="195" y="370" width="35" height="110" fill="none" stroke="#374151" strokeWidth="2.5" rx="17"/>
-
-                {/* Knee */}
-                <circle cx="212" cy="485" r="15" fill="none" stroke="#374151" strokeWidth="2"/>
-                <path d="M 200 485 Q 212 480, 225 485" fill="none" stroke="#374151" strokeWidth="1" opacity="0.6"/> {/* Patella */}
-
-                {/* Lower leg */}
-                <rect x="197" y="495" width="30" height="80" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3"/>
-                <rect x="197" y="495" width="30" height="80" fill="none" stroke="#374151" strokeWidth="2.5" rx="15"/>
-
-                {/* Ankle */}
-                <rect x="199" y="575" width="26" height="15" fill="none" stroke="#374151" strokeWidth="2" rx="7"/>
-
-                {/* Foot */}
-                <ellipse cx="212" cy="600" rx="20" ry="28" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <ellipse cx="212" cy="600" rx="20" ry="28" fill="none" stroke="#374151" strokeWidth="2"/>
-              </g>
-
-              {/* Legs - Right */}
-              <g>
-                {/* Upper leg */}
-                <rect x="270" y="370" width="35" height="110" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="17" opacity="0.3"/>
-                <rect x="270" y="370" width="35" height="110" fill="none" stroke="#374151" strokeWidth="2.5" rx="17"/>
-
-                {/* Knee */}
-                <circle cx="287" cy="485" r="15" fill="none" stroke="#374151" strokeWidth="2"/>
-                <path d="M 275 485 Q 287 480, 300 485" fill="none" stroke="#374151" strokeWidth="1" opacity="0.6"/> {/* Patella */}
-
-                {/* Lower leg */}
-                <rect x="272" y="495" width="30" height="80" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3"/>
-                <rect x="272" y="495" width="30" height="80" fill="none" stroke="#374151" strokeWidth="2.5" rx="15"/>
-
-                {/* Ankle */}
-                <rect x="274" y="575" width="26" height="15" fill="none" stroke="#374151" strokeWidth="2" rx="7"/>
-
-                {/* Foot */}
-                <ellipse cx="287" cy="600" rx="20" ry="28" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3"/>
-                <ellipse cx="287" cy="600" rx="20" ry="28" fill="none" stroke="#374151" strokeWidth="2"/>
-              </g>
-
-              {/* Internal Organs - Detailed Anatomy */}
-              <g opacity="0.8">
-                {/* Heart */}
+                {/* Arms - Left */}
                 <g>
-                  <path d="M 250 160 Q 235 145, 220 160 Q 235 175, 250 160 Q 265 175, 280 160 Q 265 145, 250 160 Z"
-                        fill="#fca5a5" stroke="#dc2626" strokeWidth="1.5" opacity="0.7"/>
-                  <path d="M 250 160 Q 240 150, 230 160 Q 240 170, 250 160 Q 260 170, 270 160 Q 260 150, 250 160 Z"
-                        fill="none" stroke="#dc2626" strokeWidth="1" strokeDasharray="3,2"/>
+                  {/* Shoulder */}
+                  <circle cx="165" cy="135" r="12" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <circle cx="165" cy="135" r="12" fill="none" stroke="#374151" strokeWidth="2" />
 
-                  {/* Heart chambers */}
-                  <ellipse cx="245" cy="155" rx="8" ry="10" fill="none" stroke="#991b1b" strokeWidth="0.8" opacity="0.6"/>
-                  <ellipse cx="255" cy="165" rx="8" ry="10" fill="none" stroke="#991b1b" strokeWidth="0.8" opacity="0.6"/>
+                  {/* Upper arm */}
+                  <rect x="150" y="140" width="30" height="85" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="15" opacity="0.3" />
+                  <rect x="150" y="140" width="30" height="85" fill="none" stroke="#374151" strokeWidth="2" rx="15" />
+
+                  {/* Elbow */}
+                  <circle cx="165" cy="235" r="10" fill="none" stroke="#374151" strokeWidth="2" />
+
+                  {/* Forearm */}
+                  <rect x="150" y="240" width="28" height="75" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="14" opacity="0.3" />
+                  <rect x="150" y="240" width="28" height="75" fill="none" stroke="#374151" strokeWidth="2" rx="14" />
+
+                  {/* Wrist */}
+                  <rect x="152" y="315" width="24" height="12" fill="none" stroke="#374151" strokeWidth="2" rx="6" />
+
+                  {/* Hand */}
+                  <ellipse cx="164" cy="340" rx="18" ry="25" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <ellipse cx="164" cy="340" rx="18" ry="25" fill="none" stroke="#374151" strokeWidth="2" />
                 </g>
 
-                {/* Lungs */}
+                {/* Arms - Right */}
                 <g>
-                  {/* Left lung */}
-                  <ellipse cx="215" cy="165" rx="20" ry="45" fill="#fde68a" stroke="#f59e0b" strokeWidth="1.5" opacity="0.6"/>
-                  <path d="M 205 145 Q 215 140, 225 145 M 205 185 Q 215 190, 225 185"
-                        fill="none" stroke="#d97706" strokeWidth="1" opacity="0.5"/>
+                  {/* Shoulder */}
+                  <circle cx="335" cy="135" r="12" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <circle cx="335" cy="135" r="12" fill="none" stroke="#374151" strokeWidth="2" />
 
-                  {/* Right lung */}
-                  <ellipse cx="285" cy="165" rx="20" ry="45" fill="#fde68a" stroke="#f59e0b" strokeWidth="1.5" opacity="0.6"/>
-                  <path d="M 275 145 Q 285 140, 295 145 M 275 185 Q 285 190, 295 185"
-                        fill="none" stroke="#d97706" strokeWidth="1" opacity="0.5"/>
+                  {/* Upper arm */}
+                  <rect x="320" y="140" width="30" height="85" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="15" opacity="0.3" />
+                  <rect x="320" y="140" width="30" height="85" fill="none" stroke="#374151" strokeWidth="2" rx="15" />
+
+                  {/* Elbow */}
+                  <circle cx="335" cy="235" r="10" fill="none" stroke="#374151" strokeWidth="2" />
+
+                  {/* Forearm */}
+                  <rect x="322" y="240" width="28" height="75" fill="#fef3c7" stroke="#374151" strokeWidth="2" rx="14" opacity="0.3" />
+                  <rect x="322" y="240" width="28" height="75" fill="none" stroke="#374151" strokeWidth="2" rx="14" />
+
+                  {/* Wrist */}
+                  <rect x="324" y="315" width="24" height="12" fill="none" stroke="#374151" strokeWidth="2" rx="6" />
+
+                  {/* Hand */}
+                  <ellipse cx="336" cy="340" rx="18" ry="25" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <ellipse cx="336" cy="340" rx="18" ry="25" fill="none" stroke="#374151" strokeWidth="2" />
                 </g>
 
-                {/* Liver */}
-                <path d="M 255 240 Q 320 235, 325 280 Q 320 310, 280 305 Q 260 300, 255 270 Z"
-                      fill="#86efac" stroke="#16a34a" strokeWidth="1.5" opacity="0.7"/>
+                {/* Abdominal Cavity */}
+                <path d="M 195 230 Q 190 225, 195 225 L 305 225 Q 310 225, 305 230 L 305 320 Q 305 325, 300 325 L 200 325 Q 195 325, 195 320 Z"
+                  fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3" />
+                <path d="M 195 230 Q 190 225, 195 225 L 305 225 Q 310 225, 305 230 L 305 320 Q 305 325, 300 325 L 200 325 Q 195 325, 195 320 Z"
+                  fill="none" stroke="#374151" strokeWidth="2.5" />
 
-                {/* Stomach */}
-                <path d="M 220 250 Q 200 245, 195 270 Q 200 290, 230 285 Q 240 275, 235 255 Z"
-                      fill="#c4b5fd" stroke="#7c3aed" strokeWidth="1.5" opacity="0.7"/>
+                {/* Pelvis */}
+                <path d="M 185 330 Q 180 325, 185 325 L 315 325 Q 320 325, 315 330 L 315 360 Q 315 365, 310 365 L 190 365 Q 185 365, 185 360 Z"
+                  fill="#fef3c7" stroke="#374151" strokeWidth="2.5" opacity="0.3" />
+                <path d="M 185 330 Q 180 325, 185 325 L 315 325 Q 320 325, 315 330 L 315 360 Q 315 365, 310 365 L 190 365 Q 185 365, 185 360 Z"
+                  fill="none" stroke="#374151" strokeWidth="2.5" />
 
-                {/* Kidneys */}
+                {/* Legs - Left */}
                 <g>
-                  {/* Left kidney */}
-                  <ellipse cx="210" cy="270" rx="15" ry="22" fill="#93c5fd" stroke="#2563eb" strokeWidth="1.5" opacity="0.7"/>
-                  <path d="M 205 270 Q 210 265, 215 270" fill="none" stroke="#1e40af" strokeWidth="1" opacity="0.6"/>
+                  {/* Upper leg */}
+                  <rect x="195" y="370" width="35" height="110" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="17" opacity="0.3" />
+                  <rect x="195" y="370" width="35" height="110" fill="none" stroke="#374151" strokeWidth="2.5" rx="17" />
 
-                  {/* Right kidney */}
-                  <ellipse cx="290" cy="270" rx="15" ry="22" fill="#93c5fd" stroke="#2563eb" strokeWidth="1.5" opacity="0.7"/>
-                  <path d="M 285 270 Q 290 265, 295 270" fill="none" stroke="#1e40af" strokeWidth="1" opacity="0.6"/>
+                  {/* Knee */}
+                  <circle cx="212" cy="485" r="15" fill="none" stroke="#374151" strokeWidth="2" />
+                  <path d="M 200 485 Q 212 480, 225 485" fill="none" stroke="#374151" strokeWidth="1" opacity="0.6" /> {/* Patella */}
+
+                  {/* Lower leg */}
+                  <rect x="197" y="495" width="30" height="80" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3" />
+                  <rect x="197" y="495" width="30" height="80" fill="none" stroke="#374151" strokeWidth="2.5" rx="15" />
+
+                  {/* Ankle */}
+                  <rect x="199" y="575" width="26" height="15" fill="none" stroke="#374151" strokeWidth="2" rx="7" />
+
+                  {/* Foot */}
+                  <ellipse cx="212" cy="600" rx="20" ry="28" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <ellipse cx="212" cy="600" rx="20" ry="28" fill="none" stroke="#374151" strokeWidth="2" />
                 </g>
 
-                {/* Intestines */}
+                {/* Legs - Right */}
                 <g>
-                  {/* Small intestine */}
-                  <path d="M 195 295 Q 185 305, 195 315 Q 205 325, 195 335 Q 185 345, 195 355"
-                        fill="none" stroke="#fb923c" strokeWidth="2" opacity="0.6" strokeDasharray="4,2"/>
-                  <path d="M 305 295 Q 315 305, 305 315 Q 295 325, 305 335 Q 315 345, 305 355"
-                        fill="none" stroke="#fb923c" strokeWidth="2" opacity="0.6" strokeDasharray="4,2"/>
+                  {/* Upper leg */}
+                  <rect x="270" y="370" width="35" height="110" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="17" opacity="0.3" />
+                  <rect x="270" y="370" width="35" height="110" fill="none" stroke="#374151" strokeWidth="2.5" rx="17" />
 
-                  {/* Large intestine */}
-                  <ellipse cx="250" cy="320" rx="40" ry="20" fill="none" stroke="#ea580c" strokeWidth="1.5" opacity="0.6" strokeDasharray="6,3"/>
+                  {/* Knee */}
+                  <circle cx="287" cy="485" r="15" fill="none" stroke="#374151" strokeWidth="2" />
+                  <path d="M 275 485 Q 287 480, 300 485" fill="none" stroke="#374151" strokeWidth="1" opacity="0.6" /> {/* Patella */}
+
+                  {/* Lower leg */}
+                  <rect x="272" y="495" width="30" height="80" fill="#fef3c7" stroke="#374151" strokeWidth="2.5" rx="15" opacity="0.3" />
+                  <rect x="272" y="495" width="30" height="80" fill="none" stroke="#374151" strokeWidth="2.5" rx="15" />
+
+                  {/* Ankle */}
+                  <rect x="274" y="575" width="26" height="15" fill="none" stroke="#374151" strokeWidth="2" rx="7" />
+
+                  {/* Foot */}
+                  <ellipse cx="287" cy="600" rx="20" ry="28" fill="#fef3c7" stroke="#374151" strokeWidth="2" opacity="0.3" />
+                  <ellipse cx="287" cy="600" rx="20" ry="28" fill="none" stroke="#374151" strokeWidth="2" />
                 </g>
 
-                {/* Bladder */}
-                <ellipse cx="250" cy="360" rx="20" ry="15" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" opacity="0.6"/>
+                {/* Internal Organs - Detailed Anatomy */}
+                <g opacity="0.8">
+                  {/* Heart */}
+                  <g>
+                    <path d="M 250 160 Q 235 145, 220 160 Q 235 175, 250 160 Q 265 175, 280 160 Q 265 145, 250 160 Z"
+                      fill="#fca5a5" stroke="#dc2626" strokeWidth="1.5" opacity="0.7" />
+                    <path d="M 250 160 Q 240 150, 230 160 Q 240 170, 250 160 Q 260 170, 270 160 Q 260 150, 250 160 Z"
+                      fill="none" stroke="#dc2626" strokeWidth="1" strokeDasharray="3,2" />
 
-                {/* Spleen */}
-                <ellipse cx="305" cy="260" rx="12" ry="18" fill="#fca5a5" stroke="#dc2626" strokeWidth="1.5" opacity="0.6"/>
+                    {/* Heart chambers */}
+                    <ellipse cx="245" cy="155" rx="8" ry="10" fill="none" stroke="#991b1b" strokeWidth="0.8" opacity="0.6" />
+                    <ellipse cx="255" cy="165" rx="8" ry="10" fill="none" stroke="#991b1b" strokeWidth="0.8" opacity="0.6" />
+                  </g>
 
-                {/* Pancreas */}
-                <path d="M 230 280 Q 250 275, 270 280 Q 265 290, 250 288 Q 235 290, 230 280 Z"
-                      fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" opacity="0.6"/>
+                  {/* Lungs */}
+                  <g>
+                    {/* Left lung */}
+                    <ellipse cx="215" cy="165" rx="20" ry="45" fill="#fde68a" stroke="#f59e0b" strokeWidth="1.5" opacity="0.6" />
+                    <path d="M 205 145 Q 215 140, 225 145 M 205 185 Q 215 190, 225 185"
+                      fill="none" stroke="#d97706" strokeWidth="1" opacity="0.5" />
+
+                    {/* Right lung */}
+                    <ellipse cx="285" cy="165" rx="20" ry="45" fill="#fde68a" stroke="#f59e0b" strokeWidth="1.5" opacity="0.6" />
+                    <path d="M 275 145 Q 285 140, 295 145 M 275 185 Q 285 190, 295 185"
+                      fill="none" stroke="#d97706" strokeWidth="1" opacity="0.5" />
+                  </g>
+
+                  {/* Liver */}
+                  <path d="M 255 240 Q 320 235, 325 280 Q 320 310, 280 305 Q 260 300, 255 270 Z"
+                    fill="#86efac" stroke="#16a34a" strokeWidth="1.5" opacity="0.7" />
+
+                  {/* Stomach */}
+                  <path d="M 220 250 Q 200 245, 195 270 Q 200 290, 230 285 Q 240 275, 235 255 Z"
+                    fill="#c4b5fd" stroke="#7c3aed" strokeWidth="1.5" opacity="0.7" />
+
+                  {/* Kidneys */}
+                  <g>
+                    {/* Left kidney */}
+                    <ellipse cx="210" cy="270" rx="15" ry="22" fill="#93c5fd" stroke="#2563eb" strokeWidth="1.5" opacity="0.7" />
+                    <path d="M 205 270 Q 210 265, 215 270" fill="none" stroke="#1e40af" strokeWidth="1" opacity="0.6" />
+
+                    {/* Right kidney */}
+                    <ellipse cx="290" cy="270" rx="15" ry="22" fill="#93c5fd" stroke="#2563eb" strokeWidth="1.5" opacity="0.7" />
+                    <path d="M 285 270 Q 290 265, 295 270" fill="none" stroke="#1e40af" strokeWidth="1" opacity="0.6" />
+                  </g>
+
+                  {/* Intestines */}
+                  <g>
+                    {/* Small intestine */}
+                    <path d="M 195 295 Q 185 305, 195 315 Q 205 325, 195 335 Q 185 345, 195 355"
+                      fill="none" stroke="#fb923c" strokeWidth="2" opacity="0.6" strokeDasharray="4,2" />
+                    <path d="M 305 295 Q 315 305, 305 315 Q 295 325, 305 335 Q 315 345, 305 355"
+                      fill="none" stroke="#fb923c" strokeWidth="2" opacity="0.6" strokeDasharray="4,2" />
+
+                    {/* Large intestine */}
+                    <ellipse cx="250" cy="320" rx="40" ry="20" fill="none" stroke="#ea580c" strokeWidth="1.5" opacity="0.6" strokeDasharray="6,3" />
+                  </g>
+
+                  {/* Bladder */}
+                  <ellipse cx="250" cy="360" rx="20" ry="15" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" opacity="0.6" />
+
+                  {/* Spleen */}
+                  <ellipse cx="305" cy="260" rx="12" ry="18" fill="#fca5a5" stroke="#dc2626" strokeWidth="1.5" opacity="0.6" />
+
+                  {/* Pancreas */}
+                  <path d="M 230 280 Q 250 275, 270 280 Q 265 290, 250 288 Q 235 290, 230 280 Z"
+                    fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" opacity="0.6" />
+                </g>
               </g>
-            </g>
 
-            {/* Body regions */}
-            {bodyRegions.map((region) => {
-              const bodyChartsInRegion = bodyCharts.filter(
-                bc => bc.bodyRegion === region.name || bc.coordinates?.includes(region.id)
-              )
-              const isHovered = hoveredRegion === region.id
-              const isSelected = selectedRegion === region.id
+              {/* Body regions */}
+              {bodyRegions.map((region) => {
+                const bodyChartsInRegion = bodyCharts.filter(
+                  bc => bc.bodyRegion === region.name || bc.coordinates?.includes(region.id)
+                )
+                const isHovered = hoveredRegion === region.id
+                const isSelected = selectedRegion === region.id
 
-              return (
-                <g key={region.id}>
-                  <rect
-                    x={region.x}
-                    y={region.y}
-                    width={region.width}
-                    height={region.height}
-                    fill={bodyChartsInRegion.length > 0 ? getSeverityColor(bodyChartsInRegion[0]?.severity) : 'transparent'}
-                    stroke={isHovered || isSelected ? '#3b82f6' : 'transparent'}
-                    strokeWidth="2"
-                    rx="4"
-                    cursor={readOnly ? "default" : "pointer"}
-                    opacity={isHovered ? 0.8 : 0.6}
-                    onMouseEnter={() => setHoveredRegion(region.id)}
-                    onMouseLeave={() => setHoveredRegion(null)}
-                    onClick={(e) => handleRegionClick(region, e)}
-                  />
+                return (
+                  <g key={region.id}>
+                    <rect
+                      x={region.x}
+                      y={region.y}
+                      width={region.width}
+                      height={region.height}
+                      fill={bodyChartsInRegion.length > 0 ? getSeverityColor(bodyChartsInRegion[0]?.severity) : 'transparent'}
+                      stroke={isHovered || isSelected ? '#3b82f6' : 'transparent'}
+                      strokeWidth="2"
+                      rx="4"
+                      cursor={readOnly ? "default" : "pointer"}
+                      opacity={isHovered ? 0.8 : 0.6}
+                      onMouseEnter={() => setHoveredRegion(region.id)}
+                      onMouseLeave={() => setHoveredRegion(null)}
+                      onClick={(e) => handleRegionClick(region, e)}
+                    />
 
-                  {/* Tooltip */}
-                  {isHovered && (
-                    <g>
-                      <rect
-                        x={region.x + region.width / 2 - 40}
-                        y={region.y - 25}
-                        width="80"
-                        height="20"
-                        fill="white"
-                        stroke="#374151"
-                        strokeWidth="1"
-                        rx="4"
-                        opacity="0.95"
-                      />
-                      <text
-                        x={region.x + region.width / 2}
-                        y={region.y - 10}
-                        textAnchor="middle"
-                        className="text-xs font-medium fill-gray-900"
-                      >
-                        {region.name}
-                      </text>
-                    </g>
-                  )}
-                </g>
-              )
-            })}
+                    {/* Tooltip */}
+                    {isHovered && (
+                      <g>
+                        <rect
+                          x={region.x + region.width / 2 - 40}
+                          y={region.y - 25}
+                          width="80"
+                          height="20"
+                          fill="white"
+                          stroke="#374151"
+                          strokeWidth="1"
+                          rx="4"
+                          opacity="0.95"
+                        />
+                        <text
+                          x={region.x + region.width / 2}
+                          y={region.y - 10}
+                          textAnchor="middle"
+                          className="text-xs font-medium fill-gray-900"
+                        >
+                          {region.name}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                )
+              })}
             </svg>
           </div>
         </div>

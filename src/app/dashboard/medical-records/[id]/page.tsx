@@ -208,8 +208,6 @@ export default async function MedicalRecordDetailPage({ params }: Props) {
                 <h4 className="font-medium text-gray-900 mb-4">Body Examination Chart</h4>
                 <BodyDiagram
                   bodyCharts={record.bodyCharts}
-                  onBodyChartAdd={() => {}}
-                  onBodyChartRemove={() => {}}
                   readOnly={true}
                 />
               </div>
