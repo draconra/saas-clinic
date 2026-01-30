@@ -50,23 +50,22 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt'
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         return {
           ...token,
+          id: user.id,
+          role: user.role,
         }
       }
       return token
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub!,
-          role: token.role,
-        }
+      if (token && session.user) {
+        session.user.id = token.id
+        session.user.role = token.role
       }
+      return session
     }
   },
   pages: {
