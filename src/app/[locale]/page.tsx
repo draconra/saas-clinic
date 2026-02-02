@@ -283,6 +283,260 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-24 bg-gradient-to-br from-slate-50 to-white">
+        <div className="container-elegant">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+              Trusted by Healthcare Professionals
+            </h2>
+            <p className="text-xl text-slate-600">
+              See what doctors and clinic administrators are saying about ClinicSaaS
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+              <div className="flex items-center text-amber-500 mb-4">
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+              </div>
+              <p className="text-slate-700 mb-6 leading-relaxed">
+                "ClinicSaaS transformed how we manage our practice. Patient scheduling is seamless,
+                and the EHR system is intuitive. Our staff productivity increased by 40%!"
+              </p>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                  DS
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Dr. Sarah Mitchell</p>
+                  <p className="text-sm text-slate-600">Family Medicine Physician</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+              <div className="flex items-center text-amber-500 mb-4">
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+              </div>
+              <p className="text-slate-700 mb-6 leading-relaxed">
+                "The billing integration saved us countless hours. Insurance claims are processed faster,
+                and our revenue cycle improved dramatically. Highly recommended!"
+              </p>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold">
+                  MP
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Michael Park</p>
+                  <p className="text-sm text-slate-600">Clinic Administrator</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+              <div className="flex items-center text-amber-500 mb-4">
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+                <Star className="h-5 w-5 fill-current" />
+              </div>
+              <p className="text-slate-700 mb-6 leading-relaxed">
+                "As a cardiologist, I need reliable tools. ClinicSaaS delivers on every front -
+                from patient records to analytics. It's become indispensable to our practice."
+              </p>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                  JC
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Dr. Jennifer Chen</p>
+                  <p className="text-sm text-slate-600">Cardiologist</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24 bg-white">
+        <div className="container-elegant">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-xl text-slate-600">
+              Choose the perfect plan for your practice. All plans include 14-day free trial.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Starter Plan */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-slate-200 hover:border-cyan-500 transition-all hover:shadow-xl">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Starter</h3>
+                <p className="text-slate-600">Perfect for small practices</p>
+              </div>
+
+              <div className="mb-6">
+                <div className="flex items-baseline">
+                  <span className="text-5xl font-bold text-slate-900">$49</span>
+                  <span className="text-slate-600 ml-2">/month</span>
+                </div>
+                <p className="text-sm text-slate-500 mt-2">Billed monthly</p>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Up to 100 patients</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Basic EHR system</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Appointment scheduling</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Email support</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Mobile app access</span>
+                </li>
+              </ul>
+
+              <Link href="/dashboard" className="btn btn-outline w-full">
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Professional Plan - Popular */}
+            <div className="bg-gradient-to-br from-cyan-600 to-blue-600 rounded-3xl p-8 shadow-2xl border-2 border-cyan-500 relative transform hover:scale-105 transition-transform">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 px-4 py-1 rounded-full text-sm font-bold">
+                POPULAR
+              </div>
+
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-white mb-2">Professional</h3>
+                <p className="text-cyan-100">For growing practices</p>
+              </div>
+
+              <div className="mb-6">
+                <div className="flex items-baseline">
+                  <span className="text-5xl font-bold text-white">$149</span>
+                  <span className="text-cyan-100 ml-2">/month</span>
+                </div>
+                <p className="text-sm text-cyan-200 mt-2">Billed monthly</p>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">Unlimited patients</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">Advanced EHR with body charts</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">Billing & invoicing</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">Priority support (24/7)</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">Analytics dashboard</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                  <span className="text-white">API access</span>
+                </li>
+              </ul>
+
+              <Link href="/dashboard" className="btn bg-white text-cyan-600 hover:bg-cyan-50 w-full font-semibold">
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-slate-200 hover:border-cyan-500 transition-all hover:shadow-xl">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Enterprise</h3>
+                <p className="text-slate-600">For hospitals & networks</p>
+              </div>
+
+              <div className="mb-6">
+                <div className="flex items-baseline">
+                  <span className="text-5xl font-bold text-slate-900">Custom</span>
+                </div>
+                <p className="text-sm text-slate-500 mt-2">Contact for pricing</p>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Everything in Professional</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Multi-location support</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Custom integrations</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Dedicated account manager</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Advanced security & compliance</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">Onboarding & training</span>
+                </li>
+              </ul>
+
+              <Link href="/dashboard" className="btn btn-outline w-full">
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+
+          {/* Pricing Footer */}
+          <div className="text-center mt-12">
+            <p className="text-slate-600">
+              All plans include HIPAA compliance, SSL encryption, and daily backups.
+              <Link href="#" className="text-cyan-600 hover:text-cyan-700 font-semibold ml-1">
+                Compare plans →
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-br from-cyan-600 to-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
