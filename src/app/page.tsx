@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Users, FileText, CreditCard, Calendar, Stethoscope, TrendingUp } from 'lucide-react'
+import CountUp from '@/components/ui/count-up'
 
 export default function Home() {
   return (
@@ -19,7 +21,7 @@ export default function Home() {
           <div className="text-center">
             {/* Logo and Brand */}
             <div className="flex justify-center mb-8">
-              <div className="relative">
+              <div className="relative animate-in fade-in zoom-in duration-700">
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-2xl">
                   <Stethoscope className="h-12 w-12 text-white" />
                 </div>
@@ -27,27 +29,40 @@ export default function Home() {
               </div>
             </div>
 
-            <h1 className="heading-1 mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="heading-1 mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent animate-in slide-in-from-bottom-4 fade-in duration-700 delay-150">
               Welcome to ClinicSaaS
             </h1>
-            <p className="text-lead text-slate-600 max-w-2xl mx-auto mb-8">
+            <p className="text-lead text-slate-600 max-w-2xl mx-auto mb-8 animate-in slide-in-from-bottom-4 fade-in duration-700 delay-300">
               Transform your medical practice with our comprehensive clinic management system.
               Streamline patient care, billing, and appointments in one elegant platform.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-in slide-in-from-bottom-4 fade-in duration-700 delay-500">
               <Link
                 href="/dashboard"
-                className="btn btn-medical btn-xl shadow-xl"
+                className="btn btn-medical btn-xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
                 Get Started
               </Link>
               <Link
                 href="/dashboard/patients"
-                className="btn btn-outline btn-xl"
+                className="btn btn-outline btn-xl hover:bg-white/80"
               >
                 View Demo
               </Link>
+            </div>
+
+            {/* Hero Image */}
+            <div className="relative mx-auto max-w-5xl rounded-2xl shadow-2xl overflow-hidden border-4 border-white/50 animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
+              <Image
+                src="/dashboard-hero.png"
+                alt="ClinicSaaS Dashboard Interface"
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
@@ -78,8 +93,8 @@ export default function Home() {
                 Comprehensive patient records and demographic information management with
                 advanced search and filtering capabilities.
               </p>
-              <Link href="/dashboard/patients" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1">
-                Explore Patients →
+              <Link href="/dashboard/patients" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
+                Explore Patients <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -98,8 +113,8 @@ export default function Home() {
                 Secure digital storage for medical histories, prescriptions, and treatment plans
                 with interactive body charts and clinical findings.
               </p>
-              <Link href="/dashboard/medical-records" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1">
-                Manage Records →
+              <Link href="/dashboard/medical-records" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
+                Manage Records <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -118,8 +133,8 @@ export default function Home() {
                 Integrated billing system with secure payment processing and insurance management
                 for seamless financial operations.
               </p>
-              <Link href="/dashboard/billing" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1">
-                View Billing →
+              <Link href="/dashboard/billing" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
+                View Billing <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -138,31 +153,44 @@ export default function Home() {
                 Smart scheduling system with automated reminders and calendar integration
                 to optimize your clinic's time management.
               </p>
-              <Link href="/dashboard/appointments" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1">
-                Schedule →
+              <Link href="/dashboard/appointments" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
+                Schedule <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Stats Section */}
+        {/* Stats Section with Animations */}
         <div className="card bg-gradient-to-r from-cyan-50 to-blue-50/30 border-cyan-200/60">
           <div className="card-content">
-            <div className="grid gap-8 md:grid-cols-4 text-center">
-              <div>
-                <p className="text-3xl font-bold text-cyan-600 mb-2">10,000+</p>
+            <div className="grid gap-8 md:grid-cols-4 text-center divide-y md:divide-y-0 md:divide-x divide-cyan-200/40">
+              <div className="p-4">
+                <p className="text-3xl font-bold text-cyan-600 mb-2 flex justify-center items-center">
+                  <CountUp end={10000} duration={2000} />
+                  <span>+</span>
+                </p>
                 <p className="text-sm font-medium text-slate-600">Patients Managed</p>
               </div>
-              <div>
-                <p className="text-3xl font-bold text-emerald-600 mb-2">50,000+</p>
+              <div className="p-4">
+                <p className="text-3xl font-bold text-emerald-600 mb-2 flex justify-center items-center">
+                  <CountUp end={50000} duration={2000} delay={200} />
+                  <span>+</span>
+                </p>
                 <p className="text-sm font-medium text-slate-600">Appointments</p>
               </div>
-              <div>
-                <p className="text-3xl font-bold text-amber-600 mb-2">$2M+</p>
+              <div className="p-4">
+                <p className="text-3xl font-bold text-amber-600 mb-2 flex justify-center items-center">
+                  <span>$</span>
+                  <CountUp end={2} duration={1500} decimals={1} suffix="M" />
+                  <span>+</span>
+                </p>
                 <p className="text-sm font-medium text-slate-600">Revenue Processed</p>
               </div>
-              <div>
-                <p className="text-3xl font-bold text-purple-600 mb-2">99.9%</p>
+              <div className="p-4">
+                <p className="text-3xl font-bold text-purple-600 mb-2 flex justify-center items-center">
+                  <CountUp end={99.9} duration={2500} decimals={1} />
+                  <span>%</span>
+                </p>
                 <p className="text-sm font-medium text-slate-600">Uptime</p>
               </div>
             </div>
@@ -171,8 +199,9 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
-        <div className="container-elegant py-16 text-center">
+      <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="container-elegant py-16 text-center relative z-10">
           <h2 className="heading-2 mb-4 text-white">Ready to Transform Your Practice?</h2>
           <p className="text-lg mb-8 text-cyan-100 max-w-2xl mx-auto">
             Join hundreds of healthcare professionals who have streamlined their operations
@@ -181,7 +210,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/dashboard"
-              className="btn bg-white text-cyan-600 hover:bg-cyan-50 font-semibold btn-lg"
+              className="btn bg-white text-cyan-600 hover:bg-cyan-50 font-semibold btn-lg shadow-lg"
             >
               Start Free Trial
             </Link>
