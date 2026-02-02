@@ -1,0 +1,36 @@
+{
+    "Hero": {
+        "title": "Welcome to ClinicSaaS",
+        "subtitle": "Transform your medical practice with our comprehensive clinic management system. Streamline patient care, billing, and appointments in one elegant platform.",
+        "getStarted": "Get Started",
+        "viewDemo": "View Demo"
+    },
+    "Features": {
+        "title": "Comprehensive Medical Practice Management",
+        "subtitle": "Everything you need to run your clinic efficiently, from patient records to billing, all in one powerful, easy-to-use platform.",
+        "patientManagement": "Patient Management",
+        "patientManagementDesc": "Comprehensive patient records and demographic information management with advanced search and filtering capabilities.",
+        "ehr": "Electronic Health Records",
+        "ehrDesc": "Secure digital storage for medical histories, prescriptions, and treatment plans with interactive body charts and clinical findings.",
+        "payment": "Payment Processing",
+        "paymentDesc": "Integrated billing system with secure payment processing and insurance management for seamless financial operations.",
+        "appointments": "Appointments",
+        "appointmentsDesc": "Smart scheduling system with automated reminders and calendar integration to optimize your clinic's time management.",
+        "explore": "Explore",
+        "manage": "Manage",
+        "view": "View",
+        "schedule": "Schedule"
+    },
+    "Stats": {
+        "patients": "Patients Managed",
+        "appointments": "Appointments",
+        "revenue": "Revenue Processed",
+        "uptime": "Uptime"
+    },
+    "CTA": {
+        "title": "Ready to Transform Your Practice?",
+        "subtitle": "Join hundreds of healthcare professionals who have streamlined their operations with ClinicSaaS. Start your free trial today.",
+        "startTrial": "Start Free Trial",
+        "scheduleDemo": "Schedule Demo"
+    }
+}

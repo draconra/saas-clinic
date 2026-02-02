@@ -3,8 +3,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Users, FileText, CreditCard, Calendar, Stethoscope, TrendingUp } from 'lucide-react'
 import CountUp from '@/components/ui/count-up'
+import { getTranslations } from 'next-intl/server'
+import LanguageSwitcher from '@/components/language-switcher'
 
-export default function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const tHero = await getTranslations('Hero')
+  const tFeatures = await getTranslations('Features')
+  const tStats = await getTranslations('Stats')
+  const tCTA = await getTranslations('CTA')
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-cyan-50/20">
       {/* Hero Section */}
@@ -13,11 +21,15 @@ export default function Home() {
         <div
           className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
           }}
         ></div>
 
         <div className="container-elegant py-16 lg:py-24">
+          <div className="absolute top-4 right-4 z-20">
+            <LanguageSwitcher />
+          </div>
+
           <div className="text-center">
             {/* Logo and Brand */}
             <div className="flex justify-center mb-8">
@@ -30,11 +42,10 @@ export default function Home() {
             </div>
 
             <h1 className="heading-1 mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent animate-in slide-in-from-bottom-4 fade-in duration-700 delay-150">
-              Welcome to ClinicSaaS
+              {tHero('title')}
             </h1>
             <p className="text-lead text-slate-600 max-w-2xl mx-auto mb-8 animate-in slide-in-from-bottom-4 fade-in duration-700 delay-300">
-              Transform your medical practice with our comprehensive clinic management system.
-              Streamline patient care, billing, and appointments in one elegant platform.
+              {tHero('subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-in slide-in-from-bottom-4 fade-in duration-700 delay-500">
@@ -42,13 +53,13 @@ export default function Home() {
                 href="/dashboard"
                 className="btn btn-medical btn-xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
-                Get Started
+                {tHero('getStarted')}
               </Link>
               <Link
                 href="/dashboard/patients"
                 className="btn btn-outline btn-xl hover:bg-white/80"
               >
-                View Demo
+                {tHero('viewDemo')}
               </Link>
             </div>
 
@@ -71,10 +82,9 @@ export default function Home() {
       {/* Features Section */}
       <div className="container-elegant py-16 lg:py-24">
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Comprehensive Medical Practice Management</h2>
+          <h2 className="heading-2 mb-4">{tFeatures('title')}</h2>
           <p className="text-lead text-slate-600 max-w-3xl mx-auto">
-            Everything you need to run your clinic efficiently, from patient records to billing,
-            all in one powerful, easy-to-use platform.
+            {tFeatures('subtitle')}
           </p>
         </div>
 
@@ -88,13 +98,12 @@ export default function Home() {
                 </div>
                 <TrendingUp className="h-4 w-4 text-slate-400 hover:text-blue-500 transition-colors" />
               </div>
-              <h3 className="heading-4 mb-2">Patient Management</h3>
+              <h3 className="heading-4 mb-2">{tFeatures('patientManagement')}</h3>
               <p className="text-muted mb-4">
-                Comprehensive patient records and demographic information management with
-                advanced search and filtering capabilities.
+                {tFeatures('patientManagementDesc')}
               </p>
               <Link href="/dashboard/patients" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
-                Explore Patients <span className="group-hover:translate-x-1 transition-transform">→</span>
+                {tFeatures('explore')} <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -108,13 +117,12 @@ export default function Home() {
                 </div>
                 <div className="status-dot status-online" />
               </div>
-              <h3 className="heading-4 mb-2">Electronic Health Records</h3>
+              <h3 className="heading-4 mb-2">{tFeatures('ehr')}</h3>
               <p className="text-muted mb-4">
-                Secure digital storage for medical histories, prescriptions, and treatment plans
-                with interactive body charts and clinical findings.
+                {tFeatures('ehrDesc')}
               </p>
               <Link href="/dashboard/medical-records" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
-                Manage Records <span className="group-hover:translate-x-1 transition-transform">→</span>
+                {tFeatures('manage')} <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -128,13 +136,12 @@ export default function Home() {
                 </div>
                 <div className="badge badge-success text-xs">Secure</div>
               </div>
-              <h3 className="heading-4 mb-2">Payment Processing</h3>
+              <h3 className="heading-4 mb-2">{tFeatures('payment')}</h3>
               <p className="text-muted mb-4">
-                Integrated billing system with secure payment processing and insurance management
-                for seamless financial operations.
+                {tFeatures('paymentDesc')}
               </p>
               <Link href="/dashboard/billing" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
-                View Billing <span className="group-hover:translate-x-1 transition-transform">→</span>
+                {tFeatures('view')} <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -148,13 +155,12 @@ export default function Home() {
                 </div>
                 <div className="badge badge-medical text-xs">Smart</div>
               </div>
-              <h3 className="heading-4 mb-2">Appointments</h3>
+              <h3 className="heading-4 mb-2">{tFeatures('appointments')}</h3>
               <p className="text-muted mb-4">
-                Smart scheduling system with automated reminders and calendar integration
-                to optimize your clinic's time management.
+                {tFeatures('appointmentsDesc')}
               </p>
               <Link href="/dashboard/appointments" className="text-cyan-600 hover:text-cyan-700 font-medium text-sm flex items-center gap-1 group">
-                Schedule <span className="group-hover:translate-x-1 transition-transform">→</span>
+                {tFeatures('schedule')} <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
           </div>
@@ -169,14 +175,14 @@ export default function Home() {
                   <CountUp end={10000} duration={2000} />
                   <span>+</span>
                 </p>
-                <p className="text-sm font-medium text-slate-600">Patients Managed</p>
+                <p className="text-sm font-medium text-slate-600">{tStats('patients')}</p>
               </div>
               <div className="p-4">
                 <p className="text-3xl font-bold text-emerald-600 mb-2 flex justify-center items-center">
                   <CountUp end={50000} duration={2000} delay={200} />
                   <span>+</span>
                 </p>
-                <p className="text-sm font-medium text-slate-600">Appointments</p>
+                <p className="text-sm font-medium text-slate-600">{tStats('appointments')}</p>
               </div>
               <div className="p-4">
                 <p className="text-3xl font-bold text-amber-600 mb-2 flex justify-center items-center">
@@ -184,14 +190,14 @@ export default function Home() {
                   <CountUp end={2} duration={1500} decimals={1} suffix="M" />
                   <span>+</span>
                 </p>
-                <p className="text-sm font-medium text-slate-600">Revenue Processed</p>
+                <p className="text-sm font-medium text-slate-600">{tStats('revenue')}</p>
               </div>
               <div className="p-4">
                 <p className="text-3xl font-bold text-purple-600 mb-2 flex justify-center items-center">
                   <CountUp end={99.9} duration={2500} decimals={1} />
                   <span>%</span>
                 </p>
-                <p className="text-sm font-medium text-slate-600">Uptime</p>
+                <p className="text-sm font-medium text-slate-600">{tStats('uptime')}</p>
               </div>
             </div>
           </div>
@@ -202,23 +208,22 @@ export default function Home() {
       <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="container-elegant py-16 text-center relative z-10">
-          <h2 className="heading-2 mb-4 text-white">Ready to Transform Your Practice?</h2>
+          <h2 className="heading-2 mb-4 text-white">{tCTA('title')}</h2>
           <p className="text-lg mb-8 text-cyan-100 max-w-2xl mx-auto">
-            Join hundreds of healthcare professionals who have streamlined their operations
-            with ClinicSaaS. Start your free trial today.
+            {tCTA('subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/dashboard"
               className="btn bg-white text-cyan-600 hover:bg-cyan-50 font-semibold btn-lg shadow-lg"
             >
-              Start Free Trial
+              {tCTA('startTrial')}
             </Link>
             <Link
               href="/dashboard"
               className="btn btn-ghost text-white border-white hover:bg-white hover:text-cyan-600 font-semibold btn-lg"
             >
-              Schedule Demo
+              {tCTA('scheduleDemo')}
             </Link>
           </div>
         </div>

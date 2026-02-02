@@ -1,0 +1,36 @@
+{
+    "Hero": {
+        "title": "Selamat Datang di ClinicSaaS",
+        "subtitle": "Transformasikan praktik medis Anda dengan sistem manajemen klinik komprehensif kami. Rampingkan perawatan pasien, penagihan, dan janji temu dalam satu platform yang elegan.",
+        "getStarted": "Mulai Sekarang",
+        "viewDemo": "Lihat Demo"
+    },
+    "Features": {
+        "title": "Manajemen Praktik Medis Komprehensif",
+        "subtitle": "Semua yang Anda butuhkan untuk menjalankan klinik secara efisien, mulai dari rekam medis pasien hingga penagihan, semua dalam satu platform yang kuat dan mudah digunakan.",
+        "patientManagement": "Manajemen Pasien",
+        "patientManagementDesc": "Rekam medis pasien yang komprehensif dan manajemen informasi demografis dengan kemampuan pencarian dan penyaringan tingkat lanjut.",
+        "ehr": "Rekam Medis Elektronik",
+        "ehrDesc": "Penyimpanan digital aman untuk riwayat medis, resep, dan rencana perawatan dengan grafik tubuh interaktif dan temuan klinis.",
+        "payment": "Pemrosesan Pembayaran",
+        "paymentDesc": "Sistem penagihan terintegrasi dengan pemrosesan pembayaran yang aman dan manajemen asuransi untuk operasional keuangan yang lancar.",
+        "appointments": "Janji Temu",
+        "appointmentsDesc": "Sistem penjadwalan cerdas dengan pengingat otomatis dan integrasi kalender untuk mengoptimalkan manajemen waktu klinik Anda.",
+        "explore": "Jelajahi",
+        "manage": "Kelola",
+        "view": "Lihat",
+        "schedule": "Jadwalkan"
+    },
+    "Stats": {
+        "patients": "Pasien Dikelola",
+        "appointments": "Janji Temu",
+        "revenue": "Pendapatan Diproses",
+        "uptime": "Waktu Operasional"
+    },
+    "CTA": {
+        "title": "Siap Mengubah Praktik Anda?",
+        "subtitle": "Bergabunglah dengan ratusan profesional kesehatan yang telah merampingkan operasi mereka dengan ClinicSaaS. Mulai uji coba gratis Anda hari ini.",
+        "startTrial": "Mulai Uji Coba Gratis",
+        "scheduleDemo": "Jadwalkan Demo"
+    }
+}
