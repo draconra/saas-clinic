@@ -27,6 +27,7 @@ export default function SignIn() {
       if (result?.error) {
         setError('Invalid credentials')
       } else {
+        router.refresh()
         router.push('/dashboard')
       }
     } catch (error) {
