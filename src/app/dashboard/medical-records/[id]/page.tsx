@@ -6,7 +6,6 @@ import { ArrowLeft, User, Calendar, FileText, Heart, Activity, Stethoscope } fro
 
 const BodyDiagram = dynamic(() => import('@/components/body-chart/body-diagram'), {
   loading: () => <div className="h-[600px] w-full bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-slate-400">Loading Body Chart...</div>,
-  ssr: false
 })
 
 interface Props {
