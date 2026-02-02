@@ -5,10 +5,12 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Create admin user
-  const adminPassword = await bcrypt.hash('admin123', 12)
+  const adminPassword = await bcrypt.hash('Admin@clinic2025!', 12)
   const admin = await prisma.user.upsert({
     where: { email: 'admin@clinic.com' },
-    update: {},
+    update: {
+      password: adminPassword,
+    },
     create: {
       email: 'admin@clinic.com',
       password: adminPassword,
@@ -18,10 +20,12 @@ async function main() {
   })
 
   // Create doctor user
-  const doctorPassword = await bcrypt.hash('doctor123', 12)
+  const doctorPassword = await bcrypt.hash('Doctor@clinic2025!', 12)
   const doctor = await prisma.user.upsert({
     where: { email: 'doctor@clinic.com' },
-    update: {},
+    update: {
+      password: doctorPassword,
+    },
     create: {
       email: 'doctor@clinic.com',
       password: doctorPassword,
@@ -495,8 +499,8 @@ async function main() {
   console.log(`🫀 Created ${bodyCharts.length} body charts`)
   console.log(`🏢 Created clinic: ${clinic.name}`)
   console.log('\nLogin credentials:')
-  console.log('Admin: admin@clinic.com / admin123')
-  console.log('Doctor: doctor@clinic.com / doctor123')
+  console.log('Admin: admin@clinic.com / Admin@clinic2025!')
+  console.log('Doctor: doctor@clinic.com / Doctor@clinic2025!')
 }
 
 main()
