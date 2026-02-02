@@ -53,7 +53,7 @@ export default function Home() {
             </div>
 
             {/* Hero Image */}
-            <div className="relative mx-auto max-w-5xl rounded-2xl shadow-2xl overflow-hidden border-4 border-white/50 animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700">
+            <div className="relative mx-auto max-w-3xl rounded-2xl shadow-2xl overflow-hidden border-4 border-white/50 animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700">
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
               <Image
                 src="/dashboard-hero.png"
