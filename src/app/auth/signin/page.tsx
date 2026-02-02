@@ -28,7 +28,8 @@ export default function SignIn() {
         setError('Invalid credentials')
       } else {
         router.refresh()
-        router.push('/dashboard')
+        // Force a hard redirect to ensure session is updated
+        window.location.href = '/dashboard'
       }
     } catch (error) {
       setError('An error occurred. Please try again.')
