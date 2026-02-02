@@ -106,6 +106,10 @@ model Patient {
   appointments Appointment[]
   medicalRecords MedicalRecord[]
   invoices     Invoice[]
+
+  @@index([clinicId])
+  @@index([lastName])
+  @@index([email])
 }
 
 model Appointment {
@@ -126,6 +130,12 @@ model Appointment {
   patient     Patient         @relation(fields: [patientId], references: [id])
   doctorId    String
   doctor      User            @relation(fields: [doctorId], references: [id])
+
+  @@index([clinicId])
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([startTime])
+  @@index([status])
 }
 
 model MedicalRecord {
@@ -158,6 +168,11 @@ model MedicalRecord {
   doctorId            String
   doctor              User     @relation(fields: [doctorId], references: [id])
   bodyCharts          BodyChart[]
+
+  @@index([clinicId])
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([createdAt])
 }
 
 model BodyChart {
@@ -175,6 +190,8 @@ model BodyChart {
   updatedAt     DateTime @updatedAt
 
   medicalRecord MedicalRecord @relation(fields: [medicalRecordId], references: [id], onDelete: Cascade)
+
+  @@index([medicalRecordId])
 }
 
 model Invoice {
@@ -194,5 +211,10 @@ model Invoice {
   patient       Patient       @relation(fields: [patientId], references: [id])
   createdBy     String
   creator       User          @relation(fields: [createdBy], references: [id])
+
+  @@index([clinicId])
+  @@index([patientId])
+  @@index([status])
+  @@index([dueDate])
 }
 

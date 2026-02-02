@@ -4,8 +4,13 @@ import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { User, Calendar, Heart, Stethoscope, Activity, AlertCircle } from 'lucide-react'
-import BodyDiagram from '@/components/body-chart/body-diagram'
+import dynamic from 'next/dynamic'
 import { BodyChart, ExaminationFormData } from '@/types'
+
+const BodyDiagram = dynamic(() => import('@/components/body-chart/body-diagram'), {
+  loading: () => <div className="h-[600px] w-full bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-slate-400">Loading Body Chart...</div>,
+  ssr: false
+})
 
 export default function NewMedicalRecordPage() {
   const router = useRouter()
@@ -225,100 +230,100 @@ export default function NewMedicalRecordPage() {
           </div>
           <div className="card-content">
             <div className="grid grid-cols-1 gap-6">
-            <div>
-              <label htmlFor="chiefComplaint" className="form-label">
-                Chief Complaint <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="chiefComplaint"
-                name="chiefComplaint"
-                rows={2}
-                required
-                value={formData.chiefComplaint}
-                onChange={handleInputChange}
-                className="textarea"
-                placeholder="Primary reason for visit..."
-              />
-            </div>
-
-            <div>
-              <label htmlFor="historyOfPresentIllness" className="form-label">
-                History of Present Illness
-              </label>
-              <textarea
-                id="historyOfPresentIllness"
-                name="historyOfPresentIllness"
-                rows={3}
-                value={formData.historyOfPresentIllness}
-                onChange={handleInputChange}
-                className="textarea"
-                placeholder="Detailed history of current complaint..."
-              />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div>
-                <label htmlFor="pastMedicalHistory" className="form-label">
-                  Past Medical History
+                <label htmlFor="chiefComplaint" className="form-label">
+                  Chief Complaint <span className="text-red-500">*</span>
                 </label>
                 <textarea
-                  id="pastMedicalHistory"
-                  name="pastMedicalHistory"
-                  rows={3}
-                  value={formData.pastMedicalHistory}
+                  id="chiefComplaint"
+                  name="chiefComplaint"
+                  rows={2}
+                  required
+                  value={formData.chiefComplaint}
                   onChange={handleInputChange}
                   className="textarea"
-                  placeholder="Previous medical conditions..."
+                  placeholder="Primary reason for visit..."
                 />
               </div>
 
               <div>
-                <label htmlFor="familyHistory" className="form-label">
-                  Family History
+                <label htmlFor="historyOfPresentIllness" className="form-label">
+                  History of Present Illness
                 </label>
                 <textarea
-                  id="familyHistory"
-                  name="familyHistory"
+                  id="historyOfPresentIllness"
+                  name="historyOfPresentIllness"
                   rows={3}
-                  value={formData.familyHistory}
+                  value={formData.historyOfPresentIllness}
                   onChange={handleInputChange}
                   className="textarea"
-                  placeholder="Family medical history..."
+                  placeholder="Detailed history of current complaint..."
                 />
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div>
+                  <label htmlFor="pastMedicalHistory" className="form-label">
+                    Past Medical History
+                  </label>
+                  <textarea
+                    id="pastMedicalHistory"
+                    name="pastMedicalHistory"
+                    rows={3}
+                    value={formData.pastMedicalHistory}
+                    onChange={handleInputChange}
+                    className="textarea"
+                    placeholder="Previous medical conditions..."
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="familyHistory" className="form-label">
+                    Family History
+                  </label>
+                  <textarea
+                    id="familyHistory"
+                    name="familyHistory"
+                    rows={3}
+                    value={formData.familyHistory}
+                    onChange={handleInputChange}
+                    className="textarea"
+                    placeholder="Family medical history..."
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="socialHistory" className="form-label">
+                    Social History
+                  </label>
+                  <textarea
+                    id="socialHistory"
+                    name="socialHistory"
+                    rows={3}
+                    value={formData.socialHistory}
+                    onChange={handleInputChange}
+                    className="textarea"
+                    placeholder="Lifestyle, habits, social factors..."
+                  />
+                </div>
               </div>
 
               <div>
-                <label htmlFor="socialHistory" className="form-label">
-                  Social History
+                <label htmlFor="reviewOfSystems" className="form-label">
+                  Review of Systems
                 </label>
                 <textarea
-                  id="socialHistory"
-                  name="socialHistory"
-                  rows={3}
-                  value={formData.socialHistory}
+                  id="reviewOfSystems"
+                  name="reviewOfSystems"
+                  rows={4}
+                  value={formData.reviewOfSystems}
                   onChange={handleInputChange}
                   className="textarea"
-                  placeholder="Lifestyle, habits, social factors..."
+                  placeholder="Systematic review of body systems..."
                 />
               </div>
-            </div>
-
-            <div>
-              <label htmlFor="reviewOfSystems" className="form-label">
-                Review of Systems
-              </label>
-              <textarea
-                id="reviewOfSystems"
-                name="reviewOfSystems"
-                rows={4}
-                value={formData.reviewOfSystems}
-                onChange={handleInputChange}
-                className="textarea"
-                placeholder="Systematic review of body systems..."
-              />
             </div>
           </div>
-        </div>
         </div>
 
         {/* Physical Examination */}

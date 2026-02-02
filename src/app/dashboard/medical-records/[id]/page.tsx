@@ -1,8 +1,13 @@
 import { prisma } from '@/lib/prisma'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { ArrowLeft, User, Calendar, FileText, Heart, Activity, Stethoscope } from 'lucide-react'
-import BodyDiagram from '@/components/body-chart/body-diagram'
+
+const BodyDiagram = dynamic(() => import('@/components/body-chart/body-diagram'), {
+  loading: () => <div className="h-[600px] w-full bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-slate-400">Loading Body Chart...</div>,
+  ssr: false
+})
 
 interface Props {
   params: Promise<{
