@@ -121,7 +121,7 @@ export async function verifyCredentials(email: string, password: string) {
     throw new ValidationError('Invalid email or password')
   }
 
-  const isValid = await verifyPassword(password, user.password)
+  const isValid = await verifyPassword(password, user.password ?? '')
 
   if (!isValid) {
     throw new ValidationError('Invalid email or password')

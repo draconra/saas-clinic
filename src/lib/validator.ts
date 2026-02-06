@@ -133,9 +133,37 @@ export const createAppointmentSchema = z.object({
   { message: 'End time must be after start time', path: ['endTime'] }
 )
 
-export const updateAppointmentSchema = createAppointmentSchema.partial().omit({
-  patientId: true, // Cannot change the patient
-})
+// Create update schema separately (can't use .partial() on refined schemas)
+export const updateAppointmentSchema = z.object({
+  doctorId: z.string().min(1, 'Doctor ID is required').optional(),
+  startTime: z.string()
+    .refine(val => !isNaN(Date.parse(val)), 'Invalid start time format')
+    .transform(val => new Date(val))
+    .refine(val => val > new Date(), 'Start time must be in the future')
+    .optional(),
+  endTime: z.string()
+    .refine(val => !isNaN(Date.parse(val)), 'Invalid end time format')
+    .transform(val => new Date(val))
+    .optional(),
+  reason: z.string()
+    .min(1, 'Reason is required')
+    .max(500, 'Reason must be less than 500 characters')
+    .trim()
+    .optional(),
+  notes: z.string()
+    .max(2000, 'Notes must be less than 2000 characters')
+    .optional()
+    .nullable(),
+  status: z.enum(['SCHEDULED', 'COMPLETED', 'CANCELLED', 'NO_SHOW']).optional(),
+}).refine(
+  data => {
+    if (data.startTime && data.endTime) {
+      return data.endTime > data.startTime
+    }
+    return true
+  },
+  { message: 'End time must be after start time', path: ['endTime'] }
+)
 
 // ============================================
 // Medical Record Validation Schemas
@@ -146,11 +174,7 @@ export const createMedicalRecordSchema = z.object({
     .min(1, 'Patient ID is required'),
   doctorId: z.string()
     .min(1, 'Doctor ID is required'),
-  visitDate: z.string()
-    .refine(val => !isNaN(Date.parse(val)), 'Invalid visit date format')
-    .transform(val => new Date(val))
-    .optional()
-    .default(() => new Date()),
+  visitDate: z.date().optional(),  // Defaults to current date in business logic
   chiefComplaint: z.string()
     .min(1, 'Chief complaint is required')
     .max(500, 'Chief complaint must be less than 500 characters')
@@ -177,7 +201,37 @@ export const createMedicalRecordSchema = z.object({
   }).optional().nullable(),
 })
 
-export const updateMedicalRecordSchema = createMedicalRecordSchema.partial()
+// Create update schema separately
+export const updateMedicalRecordSchema = z.object({
+  patientId: z.string().min(1, 'Patient ID is required').optional(),
+  doctorId: z.string().min(1, 'Doctor ID is required').optional(),
+  visitDate: z.date().optional(),
+  chiefComplaint: z.string()
+    .min(1, 'Chief complaint is required')
+    .max(500, 'Chief complaint must be less than 500 characters')
+    .trim()
+    .optional(),
+  diagnosis: z.string()
+    .max(2000, 'Diagnosis must be less than 2000 characters')
+    .optional()
+    .nullable(),
+  treatment: z.string()
+    .max(5000, 'Treatment must be less than 5000 characters')
+    .optional()
+    .nullable(),
+  notes: z.string()
+    .max(5000, 'Notes must be less than 5000 characters')
+    .optional()
+    .nullable(),
+  vitalSigns: z.object({
+    bloodPressureSystolic: z.number().int().min(50).max(300).optional(),
+    bloodPressureDiastolic: z.number().int().min(30).max(200).optional(),
+    heartRate: z.number().int().min(30).max(250).optional(),
+    temperature: z.number().min(30).max(45).optional(),
+    weight: z.number().min(0).max(500).optional(),
+    height: z.number().min(0).max(300).optional(),
+  }).optional().nullable(),
+})
 
 // ============================================
 // Invoice Validation Schemas
@@ -194,11 +248,7 @@ export const createInvoiceSchema = z.object({
     quantity: z.number().int().min(1, 'Quantity must be at least 1'),
     unitPrice: z.number().positive('Unit price must be positive'),
   })).min(1, 'At least one item is required'),
-  issueDate: z.string()
-    .refine(val => !isNaN(Date.parse(val)), 'Invalid issue date format')
-    .transform(val => new Date(val))
-    .optional()
-    .default(() => new Date()),
+  issueDate: z.date().optional(),  // Defaults to current date in business logic
   dueDate: z.string()
     .refine(val => !isNaN(Date.parse(val)), 'Invalid due date format')
     .transform(val => new Date(val))
@@ -208,7 +258,7 @@ export const createInvoiceSchema = z.object({
     .optional()
     .nullable(),
 }).refine(
-  data => !data.dueDate || data.dueDate >= data.issueDate,
+  data => !data.dueDate || !data.issueDate || data.dueDate >= data.issueDate,
   { message: 'Due date must be on or after issue date', path: ['dueDate'] }
 )
 

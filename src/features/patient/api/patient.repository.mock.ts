@@ -43,7 +43,20 @@ export class MockPatientRepository implements PatientRepository {
   async create(data: CreatePatientDTO & { clinicId: string }): Promise<Patient> {
     const patient: Patient = {
       id: this.generateId(),
-      ...data,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email ?? null,
+      phone: data.phone ?? null,
+      dateOfBirth: data.dateOfBirth,
+      gender: data.gender,
+      address: data.address ?? null,
+      emergencyContact: data.emergencyContact ?? null,
+      insuranceNumber: data.insuranceNumber ?? null,
+      bloodType: data.bloodType ?? null,
+      allergies: data.allergies ?? null,
+      medications: data.medications ?? null,
+      medicalHistory: data.medicalHistory ?? null,
+      clinicId: data.clinicId,
       clinic: {
         id: data.clinicId,
         name: 'Test Clinic',

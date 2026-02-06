@@ -3,7 +3,7 @@
  * Includes repository interface and implementations
  */
 
-export { PatientRepository } from './patient.repository'
+export type { PatientRepository } from './patient.repository'
 export { PrismaPatientRepository } from './patient.repository.prisma'
 export { MockPatientRepository } from './patient.repository.mock'
 

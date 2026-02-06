@@ -61,7 +61,12 @@ export class PrismaPatientRepository implements PatientRepository {
   }
 
   async findByEmail(email: string): Promise<Patient | null> {
-    const patient = await prisma.patient.findUnique({
+    if (!email) {
+      return null
+    }
+
+    // Use findFirst since email may not be a unique field
+    const patient = await prisma.patient.findFirst({
       where: { email },
       include: {
         clinic: {
