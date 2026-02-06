@@ -1,88 +1,187 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { logger, getCorrelationId } from '@/lib/logger'
+import {
+  UnauthorizedError,
+  AppError,
+  getLogContext,
+} from '@/lib/errors'
+import { createPatientSchema } from '@/lib/validator'
+import { PrismaPatientRepository, PatientService } from '@/features/patient'
+import { MockClinicRepository } from '@/lib/clinic.repository.mock'
 
-export async function GET() {
+// Initialize dependencies (in production, these would be wired differently)
+const patientRepo = new PrismaPatientRepository()
+const clinicRepo = new MockClinicRepository()
+const patientService = new PatientService(patientRepo, clinicRepo)
+
+/**
+ * GET /api/patients
+ * Fetch all patients for the authenticated user's clinic
+ */
+export async function GET(request: Request) {
+  const correlationId = getCorrelationId(new Headers(request.headers))
+  const startTime = Date.now()
+  const operation = 'fetch_patients'
+
   try {
-    const session = await getServerSession(authOptions)
+    logger.logStart(operation, { correlationId })
 
+    // Authentication check
+    const session = await getServerSession(authOptions)
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      throw new UnauthorizedError('Authentication required')
     }
 
-    const patients = await prisma.patient.findMany({
-      include: {
-        clinic: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
+    // Fetch patients via service
+    const patients = await patientService.getAllPatients()
+
+    logger.logSuccess(operation, {
+      correlationId,
+      duration: Date.now() - startTime,
+      userId: session.user?.id,
+      count: patients.length,
     })
 
-    return NextResponse.json({ patients })
+    return NextResponse.json({
+      data: patients,
+      meta: { total: patients.length },
+    })
   } catch (error) {
-    console.error('Error fetching patients:', error)
+    const duration = Date.now() - startTime
+
+    // Handle AppError instances
+    if (error instanceof AppError) {
+      logger.warn(`${operation} failed`, {
+        correlationId,
+        duration,
+        ...getLogContext(error),
+      })
+
+      return NextResponse.json(
+        {
+          ...error.toJSON(),
+          correlationId,
+        },
+        { status: error.statusCode }
+      )
+    }
+
+    // Handle unexpected errors
+    logger.error(`${operation} failed`, {
+      correlationId,
+      duration,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    })
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        status: 'error',
+        code: 500,
+        error: {
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An error occurred while fetching patients',
+        },
+        correlationId,
+      },
       { status: 500 }
     )
   }
 }
 
+/**
+ * POST /api/patients
+ * Create a new patient
+ */
 export async function POST(request: Request) {
-  try {
-    const session = await getServerSession(authOptions)
+  const correlationId = getCorrelationId(new Headers(request.headers))
+  const startTime = Date.now()
+  const operation = 'create_patient'
 
+  try {
+    logger.logStart(operation, { correlationId })
+
+    // Authentication check
+    const session = await getServerSession(authOptions)
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      throw new UnauthorizedError('Authentication required')
     }
 
-    const data = await request.json()
+    // Parse and validate request body
+    const rawData = await request.json()
+    const validationResult = createPatientSchema.safeParse(rawData)
 
-    // For demo purposes, we'll use the first clinic
-    // In a real app, you'd get this from the user's session or context
-    const clinic = await prisma.clinic.findFirst()
-
-    if (!clinic) {
-      return NextResponse.json(
-        { error: 'No clinic found. Please create a clinic first.' },
-        { status: 400 }
+    if (!validationResult.success) {
+      throw new AppError(
+        'VALIDATION_ERROR',
+        'Invalid input data',
+        400,
+        validationResult.error.format()
       )
     }
 
-    const patient = await prisma.patient.create({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email || null,
-        phone: data.phone || null,
-        dateOfBirth: new Date(data.dateOfBirth),
-        gender: data.gender,
-        address: data.address || null,
-        emergencyContact: data.emergencyContact || null,
-        insuranceNumber: data.insuranceNumber || null,
-        bloodType: data.bloodType || null,
-        allergies: data.allergies || null,
-        medications: data.medications || null,
-        medicalHistory: data.medicalHistory || null,
-        clinicId: clinic.id,
-      },
+    const data = validationResult.data
+
+    // Create patient via service (includes business logic)
+    const patient = await patientService.createPatient(
+      data,
+      session.user?.id || 'system'
+    )
+
+    logger.logSuccess(operation, {
+      correlationId,
+      duration: Date.now() - startTime,
+      userId: session.user?.id,
+      patientId: patient.id,
     })
 
-    return NextResponse.json({ patient }, { status: 201 })
-  } catch (error: any) {
-    console.error('Error creating patient:', error)
+    return NextResponse.json(
+      {
+        data: patient,
+        correlationId,
+      },
+      { status: 201 }
+    )
+  } catch (error) {
+    const duration = Date.now() - startTime
 
-    if (error.code === 'P2002') {
+    // Handle AppError instances
+    if (error instanceof AppError) {
+      logger.warn(`${operation} failed`, {
+        correlationId,
+        duration,
+        ...getLogContext(error),
+      })
+
       return NextResponse.json(
-        { error: 'Patient with this email already exists' },
-        { status: 409 }
+        {
+          ...error.toJSON(),
+          correlationId,
+        },
+        { status: error.statusCode }
       )
     }
 
+    // Handle unexpected errors
+    logger.error(`${operation} failed`, {
+      correlationId,
+      duration,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    })
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        status: 'error',
+        code: 500,
+        error: {
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An error occurred while creating patient',
+        },
+        correlationId,
+      },
       { status: 500 }
     )
   }

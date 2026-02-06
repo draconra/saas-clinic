@@ -1,42 +1,98 @@
 import { NextResponse } from 'next/server'
 import { createUser } from '@/lib/auth_helpers'
+import { logger, getCorrelationId } from '@/lib/logger'
+import {
+  AppError,
+  getLogContext,
+} from '@/lib/errors'
+import { rateLimitMiddleware, rateLimitConfig } from '@/lib/rate-limit'
 
+/**
+ * POST /api/auth/register
+ * Register a new user
+ *
+ * Rate limit: 5 requests per 15 minutes per IP address
+ */
 export async function POST(request: Request) {
+  const correlationId = getCorrelationId(new Headers(request.headers))
+  const startTime = Date.now()
+  const operation = 'register_user'
+
   try {
+    logger.logStart(operation, { correlationId })
+
+    // Check rate limit
+    const rateLimitResponse = await rateLimitMiddleware(request, rateLimitConfig.auth)
+    if (rateLimitResponse) {
+      logger.warn(`${operation} rate limited`, {
+        correlationId,
+        operation,
+      })
+
+      return rateLimitResponse
+    }
+
+    // Parse request body
     const { name, email, password } = await request.json()
 
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
-    }
+    // Create user (includes validation and password hashing)
+    const user = await createUser(email, password, name)
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: 'Password must be at least 6 characters long' },
-        { status: 400 }
-      )
-    }
-
-    const user = await createUser(name, email, password)
+    logger.logSuccess(operation, {
+      correlationId,
+      duration: Date.now() - startTime,
+      userId: user.id,
+      email,
+    })
 
     return NextResponse.json(
-      { message: 'User created successfully', userId: user.id },
+      {
+        data: {
+          message: 'User created successfully',
+          userId: user.id,
+        },
+        correlationId,
+      },
       { status: 201 }
     )
-  } catch (error: any) {
-    console.error('Registration error:', error)
+  } catch (error) {
+    const duration = Date.now() - startTime
 
-    if (error.code === 'P2002') {
+    // Handle AppError instances
+    if (error instanceof AppError) {
+      logger.warn(`${operation} failed`, {
+        correlationId,
+        duration,
+        ...getLogContext(error),
+      })
+
       return NextResponse.json(
-        { error: 'Email already exists' },
-        { status: 409 }
+        {
+          ...error.toJSON(),
+          correlationId,
+        },
+        { status: error.statusCode }
       )
     }
 
+    // Handle unexpected errors
+    logger.error(`${operation} failed`, {
+      correlationId,
+      duration,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    })
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        status: 'error',
+        code: 500,
+        error: {
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An error occurred while creating user',
+        },
+        correlationId,
+      },
       { status: 500 }
     )
   }
