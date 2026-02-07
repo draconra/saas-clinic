@@ -170,6 +170,188 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
+      {/* Dashboard Showcase Section */}
+      <section className="py-24 bg-gradient-to-br from-slate-50 to-white overflow-hidden">
+        <div className="container-elegant">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+              See ClinicSaaS in Action
+            </h2>
+            <p className="text-xl text-slate-600">
+              A powerful, intuitive dashboard designed to streamline your clinic operations
+            </p>
+          </div>
+
+          {/* Dashboard Screenshot - Main */}
+          <div className="relative mb-16">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-3xl transform -rotate-1"></div>
+            <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
+              <div className="p-2 bg-slate-100 border-b border-slate-200">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  </div>
+                  <div className="flex-1 ml-4">
+                    <div className="h-2 bg-slate-300 rounded w-64 max-w-full"></div>
+                  </div>
+                </div>
+              </div>
+              <Image
+                src="/dashboard-hero.png"
+                alt="ClinicSaaS Dashboard Overview"
+                width={1400}
+                height={800}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
+            {/* Floating Label */}
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
+              <p className="text-sm font-semibold text-slate-700">Dashboard Overview</p>
+            </div>
+          </div>
+
+          {/* Feature Screenshots Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Patient Management Screenshot */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-600/0 group-hover:from-blue-500/10 group-hover:to-blue-600/10 rounded-3xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-video bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Users className="h-8 w-8 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Patient Management</h4>
+                    <p className="text-sm text-slate-600">Complete patient profiles with medical history</p>
+                    <div className="mt-4 text-xs text-slate-500">
+                      <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full">/patients</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* EHR Screenshot */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-teal-600/0 group-hover:from-emerald-500/10 group-hover:to-teal-600/10 rounded-3xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-video bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <FileText className="h-8 w-8 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Electronic Health Records</h4>
+                    <p className="text-sm text-slate-600">SOAP notes, vital signs & prescriptions</p>
+                    <div className="mt-4 text-xs text-slate-500">
+                      <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full">/medical-records</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Appointments Screenshot */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-600/0 group-hover:from-purple-500/10 group-hover:to-pink-600/10 rounded-3xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-video bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Calendar className="h-8 w-8 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Appointment Scheduling</h4>
+                    <p className="text-sm text-slate-600">Calendar view with conflict detection</p>
+                    <div className="mt-4 text-xs text-slate-500">
+                      <span className="inline-block px-3 py-1 bg-purple-50 text-purple-700 rounded-full">/appointments</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Billing Screenshot */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-orange-600/0 group-hover:from-amber-500/10 group-hover:to-orange-600/10 rounded-3xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-video bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <CreditCard className="h-8 w-8 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Billing & Invoicing</h4>
+                    <p className="text-sm text-slate-600">Track payments & revenue</p>
+                    <div className="mt-4 text-xs text-slate-500">
+                      <span className="inline-block px-3 py-1 bg-amber-50 text-amber-700 rounded-full">/billing</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Features Row */}
+          <div className="grid md:grid-cols-3 gap-6 mt-6">
+            {/* Analytics Dashboard */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-700/0 to-slate-900/0 group-hover:from-slate-700/10 group-hover:to-slate-900/10 rounded-2xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-[16/9] bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-900 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <TrendingUp className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-1 text-sm">Analytics Dashboard</h4>
+                    <p className="text-xs text-slate-600">Real-time metrics & insights</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Settings */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-700/0 to-blue-800/0 group-hover:from-cyan-700/10 group-hover:to-blue-800/10 rounded-2xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-[16/9] bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-700 to-blue-800 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <Shield className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-1 text-sm">Settings & Configuration</h4>
+                    <p className="text-xs text-slate-600">Customize your clinic workflow</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile App */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/0 to-rose-600/0 group-hover:from-pink-500/10 group-hover:to-rose-600/10 rounded-2xl transition-all duration-300"></div>
+              <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 group-hover:shadow-xl transition-shadow">
+                <div className="aspect-[16/9] bg-slate-50 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <Clock className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-1 text-sm">Mobile-First Design</h4>
+                    <p className="text-xs text-slate-600">Access anywhere, any device</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-12 text-center">
+            <p className="text-slate-600 mb-4">
+              Want to see more? <Link href="/dashboard" className="text-cyan-600 hover:text-cyan-700 font-semibold underline">Try our live demo</Link> or <Link href="#pricing" className="text-cyan-600 hover:text-cyan-700 font-semibold underline">start your free trial</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="features" className="py-24 bg-gradient-to-br from-slate-50 to-white">
         <div className="container-elegant">
